@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Money Analiza</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightweight-charts/4.1.3/lightweight-charts.standalone.production.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;800&display=swap');
+:root{--bg:#0a0a0f;--bg2:#11111a;--bg3:#1a1a28;--border:#2a2a3f;--text:#e0e0f0;--muted:#6060a0;--gold:#FFD700;--green:#00CC88;--red:#FF4466;--orange:#FF9900;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+header{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--gold);letter-spacing:2px;white-space:nowrap;}
+.tw{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:4px 9px;}
+.tw input{background:none;border:none;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;width:80px;text-transform:uppercase;outline:none;}
+select{background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 7px;cursor:pointer;outline:none;}
+button{background:var(--gold);color:#000;border:none;border-radius:5px;padding:5px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+button:hover{opacity:.85;}button:disabled{opacity:.4;cursor:not-allowed;}
+.pd{margin-left:auto;display:flex;gap:14px;align-items:center;}
+.pm{font-size:17px;font-weight:700;}
+.pc{font-size:11px;}
+.pos{color:var(--green);}.neg{color:var(--red);}
+.st{font-size:10px;color:var(--muted);padding:3px 7px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);}
+.main{display:flex;flex:1;overflow:hidden;}
+#cd{flex:1;position:relative;}
+.sb{width:255px;background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:9px;display:flex;flex-direction:column;gap:7px;}
+.sb::-webkit-scrollbar{width:3px;}.sb::-webkit-scrollbar-thumb{background:var(--border);}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:7px;overflow:hidden;}
+.ch{padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);border-bottom:1px solid var(--border);text-transform:uppercase;}
+.cb{padding:8px 10px;}
+.row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:10px;border-bottom:1px solid rgba(255,255,255,.03);}
+.row:last-child{border-bottom:none;}
+.rl{color:var(--muted);}.rv{font-weight:600;text-align:right;}
+.badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:1px;}
+.bb{background:rgba(0,204,136,.2);color:var(--green);border:1px solid rgba(0,204,136,.3);}
+.bd{background:rgba(255,68,102,.2);color:var(--red);border:1px solid rgba(255,68,102,.3);}
+.bn{background:rgba(96,96,160,.2);color:var(--muted);border:1px solid rgba(96,96,160,.3);}
+.fr{display:flex;justify-content:space-between;padding:2px 0;font-size:10px;}
+.fl{color:var(--muted);}.fv{font-weight:600;}
+.fg{color:var(--gold);font-weight:700;}.fs{color:var(--green);}.fd{color:var(--red);}
+.ov{position:absolute;inset:0;background:rgba(10,10,15,.85);display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:12px;}
+.sp{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ot{color:var(--muted);font-size:10px;letter-spacing:2px;}
+.sb2{padding:6px;border-radius:5px;margin-top:3px;}
+.sbu{background:rgba(0,204,136,.08);border:1px solid rgba(0,204,136,.2);}
+.sbd{background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.2);}
+.sl{font-size:8px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+.sv{font-size:12px;font-weight:700;}
+.sp2{font-size:9px;margin-left:4px;}
+.ld{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px;}
+.eb{position:absolute;top:10px;left:10px;right:10px;z-index:50;background:rgba(255,68,102,.15);border:1px solid rgba(255,68,102,.3);border-radius:5px;padding:8px 11px;font-size:11px;color:var(--red);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">⬡ SMART MONEY</div>
+  <div class="tw">
+    <span style="color:var(--muted);font-size:10px">TICKER</span>
+    <input type="text" id="ti" value="AAPL" maxlength="10" onkeydown="if(event.key==='Enter')go()">
+  </div>
+  <select id="ps">
+    <option value="90">3 mies.</option>
+    <option value="180">6 mies.</option>
+    <option value="365" selected>1 rok</option>
+    <option value="730">2 lata</option>
+  </select>
+  <select id="ss">
+    <option value="5">Czułość 5</option>
+    <option value="10" selected>Czułość 10</option>
+    <option value="15">Czułość 15</option>
+    <option value="20">Czułość 20</option>
+  </select>
+  <button id="lb" onclick="go()">▶ ANALIZUJ</button>
+  <div class="pd">
+    <div><div class="pm" id="pm">–</div><div class="pc" id="pc">–</div></div>
+    <div class="st" id="st">Gotowy</div>
+  </div>
+</header>
+
+<div class="main">
+  <div id="cd">
+    <div class="ov" id="ov" style="display:none">
+      <div class="sp"></div>
+      <div class="ot" id="ot">ŁADOWANIE...</div>
+    </div>
+  </div>
+  <div class="sb">
+    <div class="card">
+      <div class="ch">📈 Trend</div>
+      <div class="cb">
+        <div class="row"><span class="rl">Struktura</span><span id="tb"><span class="badge bn">–</span></span></div>
+        <div class="row"><span class="rl">Vs mPP</span><span id="bb"><span class="badge bn">–</span></span></div>
+        <div class="row"><span class="rl" style="color:#00FFFF">BOS</span><span style="font-size:9px;color:var(--muted)">Break of Structure</span></div>
+        <div class="row"><span class="rl" style="color:var(--orange)">CHoCH</span><span style="font-size:9px;color:var(--muted)">Change of Character</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">🌀 Fibonacci</div>
+      <div class="cb" id="fc"><div class="fr"><span class="fl">Brak danych</span></div></div>
+    </div>
+    <div class="card">
+      <div class="ch">⭐ Złota strefa 0.618–0.786</div>
+      <div class="cb"><div id="gi" style="font-size:11px;color:var(--muted)">–</div></div>
+    </div>
+    <div class="card">
+      <div class="ch">📅 Pivoty</div>
+      <div class="cb" id="pvc"><div style="font-size:10px;color:var(--muted)">Brak danych</div></div>
+    </div>
+    <div class="card">
+      <div class="ch">🎯 Scenariusze</div>
+      <div class="cb">
+        <div id="ds" style="margin-bottom:7px"></div>
+        <div class="sb2 sbu"><div class="sl">Wzrost – cel</div><div><span class="sv pos" id="bt">–</span><span class="sp2 pos" id="bp"></span></div></div>
+        <div class="sb2 sbd" style="margin-top:5px"><div class="sl">Spadek – cel</div><div><span class="sv neg" id="bk">–</span><span class="sp2 neg" id="bkp"></span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">📖 Legenda</div>
+      <div class="cb">
+        <div class="row"><span><span class="ld" style="background:#44FF44"></span>HH/HL</span><span style="font-size:9px;color:var(--muted)">Wyższy szczyt/dołek</span></div>
+        <div class="row"><span><span class="ld" style="background:#FF4444"></span>LH/LL</span><span style="font-size:9px;color:var(--muted)">Niższy szczyt/dołek</span></div>
+        <div class="row"><span><span class="ld" style="background:#00FFFF"></span>BOS</span><span style="font-size:9px;color:var(--muted)">Przełamanie struktury</span></div>
+        <div class="row"><span><span class="ld" style="background:#FF9900"></span>CHoCH</span><span style="font-size:9px;color:var(--muted)">Zmiana charakteru</span></div>
+        <div class="row"><span><span class="ld" style="background:#FFD700"></span>Złota strefa</span><span style="font-size:9px;color:var(--muted)">Fib 0.618–0.786</span></div>
+        <div class="row"><span><span class="ld" style="background:#FF3333"></span>SUPPLY</span><span style="font-size:9px;color:var(--muted)">Strefa podaży</span></div>
+        <div class="row"><span><span class="ld" style="background:#00CC66"></span>DEMAND</span><span style="font-size:9px;color:var(--muted)">Strefa popytu</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let chart, cs, refs=[], A={};
+
+window.addEventListener('load', ()=>{
+  const el = document.getElementById('cd');
+  chart = LightweightCharts.createChart(el, {
+    layout:{background:{color:'#0a0a0f'},textColor:'#6060a0',fontFamily:'JetBrains Mono',fontSize:11},
+    grid:{vertLines:{color:'#1a1a28'},horzLines:{color:'#1a1a28'}},
+    crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
+    rightPriceScale:{borderColor:'#2a2a3f'},
+    timeScale:{borderColor:'#2a2a3f',timeVisible:true}
+  });
+  cs = chart.addCandlestickSeries({
+    upColor:'#00CC88',downColor:'#FF4466',
+    borderUpColor:'#00CC88',borderDownColor:'#FF4466',
+    wickUpColor:'#00CC88',wickDownColor:'#FF4466'
+  });
+  window.addEventListener('resize',()=>chart.resize(el.offsetWidth,el.offsetHeight));
+  go();
+});
+
+async function getData(ticker, days){
+  const now = new Date();
+  const from = new Date(); from.setDate(from.getDate()-days-10);
+  const fmt = d=>d.toISOString().slice(0,10).replace(/-/g,'');
+  const sym = ticker.toLowerCase();
+  // Próbuj .us suffix najpierw, potem bez
+  const urls = [
+    `https://stooq.com/q/d/l/?s=${sym}.us&d1=${fmt(from)}&d2=${fmt(now)}&i=d`,
+    `https://stooq.com/q/d/l/?s=${sym}&d1=${fmt(from)}&d2=${fmt(now)}&i=d`
+  ];
+  let lastErr = null;
+  for(const url of urls){
+    const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+    try{
+      const r = await fetch(proxy, {signal: AbortSignal.timeout(10000)});
+      if(!r.ok) continue;
+      const txt = await r.text();
+      if(txt.includes('No data')||txt.trim().length<30) continue;
+      const lines = txt.trim().split('\n').slice(1);
+      const data = [];
+      for(const l of lines){
+        const [date,open,high,low,close] = l.split(',');
+        if(!date||!close||isNaN(parseFloat(close))) continue;
+        data.push({
+          time: Math.floor(new Date(date).getTime()/1000),
+          open: +parseFloat(open).toFixed(4),
+          high: +parseFloat(high).toFixed(4),
+          low:  +parseFloat(low).toFixed(4),
+          close:+parseFloat(close).toFixed(4)
+        });
+      }
+      if(data.length>10) return data.sort((a,b)=>a.time-b.time);
+    }catch(e){ lastErr=e; }
+  }
+  throw new Error(`Nie można pobrać danych dla "${ticker}". Sprawdź ticker (np. AAPL, MSFT, TSLA, BTC-USD).`);
+}
+
+function pivots(data,len){
+  const ph=new Array(data.length).fill(null);
+  const pl=new Array(data.length).fill(null);
+  for(let i=len;i<data.length-len;i++){
+    let H=true,L=true;
+    for(let j=i-len;j<=i+len;j++){
+      if(j===i) continue;
+      if(data[j].high>=data[i].high) H=false;
+      if(data[j].low<=data[i].low)  L=false;
+    }
+    if(H) ph[i]=data[i].high;
+    if(L) pl[i]=data[i].low;
+  }
+  return {ph,pl};
+}
+
+function structure(data,len){
+  const {ph,pl}=pivots(data,len);
+  const hh=[],hl=[],lh=[],ll=[],bos=[],choch=[];
+  let pH=null,pHi=null,pL=null,pLi=null,bull=true;
+  let lHH=null,lHHi=null,lLL=null,lLLi=null;
+  for(let i=0;i<data.length;i++){
+    if(ph[i]!==null){
+      if(pH!==null){
+        if(ph[i]>pH){ hh.push({time:data[i].time,price:ph[i],idx:i}); lHH=ph[i];lHHi=i;
+          if(!bull) choch.push({time:data[i].time,fromTime:data[pHi].time,level:pH}); bull=true;
+        }else lh.push({time:data[i].time,price:ph[i]});
+      }
+      pH=ph[i];pHi=i;
+    }
+    if(pl[i]!==null){
+      if(pL!==null){
+        if(pl[i]<pL){ ll.push({time:data[i].time,price:pl[i],idx:i}); lLL=pl[i];lLLi=i;
+          if(bull) bos.push({time:data[i].time,fromTime:data[pLi].time,level:pL}); bull=false;
+        }else hl.push({time:data[i].time,price:pl[i]});
+      }
+      pL=pl[i];pLi=i;
+    }
+  }
+  return {hh,hl,lh,ll,bos,choch,bull,lHH,lHHi,lLL,lLLi};
+}
+
+function fibonacci(s,data){
+  if(s.lHH===null||s.lLL===null) return null;
+  const down=s.lHHi<s.lLLi, range=s.lHH-s.lLL;
+  const lvls=[0,0.236,0.382,0.5,0.618,0.786,1,1.272,1.618];
+  const prices={};
+  lvls.forEach(l=>prices[l]=down?s.lHH-range*l:s.lLL+range*l);
+  return{prices,down,fib_h:s.lHH,fib_l:s.lLL,
+    fib_h_time:data[s.lHHi].time,fib_l_time:data[s.lLLi].time,
+    goldTop:Math.max(prices[0.618],prices[0.786]),
+    goldBot:Math.min(prices[0.618],prices[0.786])};
+}
+
+function sd(data,len,fib){
+  const {ph,pl}=pivots(data,len);
+  const cp=data[data.length-1].close;
+  const top=fib?fib.fib_h:cp*1.2, bot=fib?fib.fib_l:cp*0.8;
+  return{
+    supply:ph.filter(p=>p&&p>cp&&p<=top).sort((a,b)=>a-b).slice(0,3),
+    demand:pl.filter(p=>p&&p<cp&&p>=bot).sort((a,b)=>b-a).slice(0,3)
+  };
+}
+
+function ppivots(data){
+  if(data.length<30) return null;
+  const ws=data.slice(-12,-5), ms=data.slice(-60,-20);
+  if(!ws.length||!ms.length) return null;
+  const wH=Math.max(...ws.map(d=>d.high)),wL=Math.min(...ws.map(d=>d.low)),wC=ws[ws.length-1].close;
+  const mH=Math.max(...ms.map(d=>d.high)),mL=Math.min(...ms.map(d=>d.low)),mC=ms[ms.length-1].close;
+  const wPP=(wH+wL+wC)/3, mPP=(mH+mL+mC)/3;
+  return{wPP,wR1:2*wPP-wL,wS1:2*wPP-wH,mPP,mR1:2*mPP-mL,mS1:2*mPP-mH,mR2:mPP+(mH-mL),mS2:mPP-(mH-mL)};
+}
+
+function clearRefs(){refs.forEach(s=>{try{chart.removeSeries(s);}catch(e){}});refs=[];}
+
+function hline(price,color,style,width){
+  const s=chart.addLineSeries({color,lineWidth:width,lineStyle:style,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
+  const d=A.data, t0=d[0].time, t1=d[d.length-1].time+86400*90;
+  s.setData([{time:t0,value:price},{time:t1,value:price}]);
+  refs.push(s);
+}
+
+function draw(data,str,fib,sdz,pv){
+  clearRefs();
+  const cp=data[data.length-1].close;
+  const LS=LightweightCharts.LineStyle;
+  // Markers
+  const mk=[];
+  str.hh.forEach(p=>mk.push({time:p.time,position:'aboveBar',color:'#44FF44',shape:'arrowDown',text:'HH'}));
+  str.hl.forEach(p=>mk.push({time:p.time,position:'belowBar',color:'#44FF44',shape:'arrowUp',text:'HL'}));
+  str.lh.forEach(p=>mk.push({time:p.time,position:'aboveBar',color:'#FF4444',shape:'arrowDown',text:'LH'}));
+  str.ll.forEach(p=>mk.push({time:p.time,position:'belowBar',color:'#FF4444',shape:'arrowUp',text:'LL'}));
+  str.bos.forEach(p=>mk.push({time:p.time,position:'belowBar',color:'#00FFFF',shape:'arrowUp',text:'BOS'}));
+  str.choch.forEach(p=>mk.push({time:p.time,position:'aboveBar',color:'#FF9900',shape:'arrowDown',text:'CHoCH'}));
+  mk.sort((a,b)=>a.time-b.time);
+  cs.setMarkers(mk);
+  // Fib
+  if(fib){
+    const cfg={0:['#444',LS.Dotted,1],0.236:['#555',LS.Dotted,1],0.382:['#FF4466',LS.Dashed,2],
+      0.5:['#fff',LS.Solid,2],0.618:['#FFD700',LS.Solid,2],0.786:['#FFD700',LS.Solid,2],
+      1:['#00CC88',LS.Dashed,2],1.272:['#FFA726',LS.Dotted,1],1.618:['#FFA726',LS.Dotted,1]};
+    Object.entries(fib.prices).forEach(([l,p])=>{const[c,s,w]=cfg[l]||['#555',LS.Dotted,1];hline(p,c,s,w);});
+    ['goldTop','goldBot'].forEach(k=>{
+      const s=chart.addLineSeries({color:'rgba(255,215,0,0.4)',lineWidth:1,lineStyle:LS.Solid,priceLineVisible:false,lastValueVisible:false});
+      s.setData([{time:data[0].time,value:fib[k]},{time:data[data.length-1].time+86400*90,value:fib[k]}]);
+      refs.push(s);
+    });
+  }
+  // SD
+  sdz.supply.forEach(p=>hline(p,'#FF3333',LightweightCharts.LineStyle.Solid,1));
+  sdz.demand.forEach(p=>hline(p,'#00CC66',LightweightCharts.LineStyle.Solid,1));
+  // Pivots
+  if(pv){
+    [[pv.wPP,3,LS.Solid],[pv.wR1,1,LS.Dashed],[pv.wS1,1,LS.Dashed],
+     [pv.mPP,3,LS.Solid],[pv.mR1,1,LS.Dashed],[pv.mS1,1,LS.Dashed],
+     [pv.mR2,1,LS.Dotted],[pv.mS2,1,LS.Dotted]]
+    .forEach(([price,width,style])=>hline(price,price>cp?'#FF4466':'#00CC88',style,width));
+  }
+}
+
+function ui(str,fib,pv,cp){
+  const bull=str.bull;
+  document.getElementById('tb').innerHTML=`<span class="badge ${bull?'bb':'bd'}">${bull?'▲ WZROSTOWY':'▼ SPADKOWY'}</span>`;
+  const abm=pv&&cp>pv.mPP;
+  document.getElementById('bb').innerHTML=pv?`<span class="badge ${abm?'bb':'bd'}">${abm?'Powyżej mPP':'Poniżej mPP'}</span>`:'<span class="badge bn">–</span>';
+  if(fib){
+    const nm={0:'0.0',0.236:'0.236',0.382:'0.382',0.5:'0.5 (50%)',0.618:'0.618 ⭐',0.786:'0.786',1:'1.0',1.272:'1.272',1.618:'1.618'};
+    document.getElementById('fc').innerHTML=Object.entries(fib.prices).map(([l,p])=>{
+      const ig=+l===0.618||+l===0.786, cl=ig?'fg':p<cp?'fs':'fd';
+      return`<div class="fr"><span class="fl">${nm[l]||l}</span><span class="fv ${cl}">${p.toFixed(2)}</span></div>`;
+    }).join('');
+    const inG=fib.goldBot<=cp&&cp<=fib.goldTop, gS=(fib.goldBot+fib.goldTop)/2<cp;
+    document.getElementById('gi').innerHTML=inG
+      ?'<span style="color:#FFD700;font-weight:700">⚠ CENA W ZŁOTEJ STREFIE!</span>'
+      :`<div style="color:#FFD700">${fib.goldBot.toFixed(2)} – ${fib.goldTop.toFixed(2)}</div><div style="font-size:9px;color:var(--muted);margin-top:2px">${gS?'[WSPARCIE]':'[OPÓR]'}</div>`;
+  }
+  if(pv) document.getElementById('pvc').innerHTML=[['wPP',pv.wPP],['wR1',pv.wR1],['wS1',pv.wS1],['mPP',pv.mPP],['mR1',pv.mR1],['mS1',pv.mS1],['mR2',pv.mR2],['mS2',pv.mS2]]
+    .map(([n,p])=>`<div class="row"><span class="rl">${n}</span><span class="rv" style="color:${p<cp?'var(--green)':'var(--red)'}">${p.toFixed(2)} ${p<cp?'↓':'↑'}</span></div>`).join('');
+  const fv=fib?Object.values(fib.prices):[];
+  const rt=fv.filter(p=>p>cp).sort((a,b)=>a-b)[0]||(pv?pv.wR1:null);
+  const st=fv.filter(p=>p<cp).sort((a,b)=>b-a)[0]||(pv?pv.wS1:null);
+  if(rt){document.getElementById('bt').textContent=rt.toFixed(2);document.getElementById('bp').textContent=`(+${((rt-cp)/cp*100).toFixed(1)}%)`;}
+  if(st){document.getElementById('bk').textContent=st.toFixed(2);document.getElementById('bkp').textContent=`(-${Math.abs(((st-cp)/cp*100)).toFixed(1)}%)`;}
+  const bg=fib&&cp<fib.goldBot, fA=fv.filter(p=>p>cp).length, fB=fv.filter(p=>p<cp).length;
+  let dt='',dc='';
+  if(bg&&!bull){dt='🔴 SILNY SPADEK (pod złotą strefą)';dc='neg';}
+  else if(fA>fB){dt=`🔴 SPADKOWY (${fA}/9 Fib powyżej)`;dc='neg';}
+  else if(fB>fA){dt=`🟢 WZROSTOWY (${fB}/9 Fib poniżej)`;dc='pos';}
+  else{dt='⚪ NEUTRALNY';}
+  document.getElementById('ds').innerHTML=`<div style="font-size:8px;color:var(--muted);margin-bottom:2px">DOMINUJĄCY</div><div style="font-size:11px;font-weight:700" class="${dc}">${dt}</div>`;
+}
+
+async function go(){
+  const ticker=document.getElementById('ti').value.trim().toUpperCase();
+  const days=parseInt(document.getElementById('ps').value);
+  const slen=parseInt(document.getElementById('ss').value);
+  if(!ticker) return;
+  document.getElementById('lb').disabled=true;
+  document.getElementById('ov').style.display='flex';
+  document.getElementById('st').textContent='Ładowanie...';
+  // Usuń stare błędy
+  document.querySelectorAll('.eb').forEach(e=>e.remove());
+  try{
+    document.getElementById('ot').textContent='POBIERANIE DANYCH...';
+    const data = await getData(ticker, days);
+    document.getElementById('ot').textContent='ANALIZA...';
+    const str = structure(data, slen);
+    const fib = fibonacci(str, data);
+    const sdz = sd(data, slen, fib);
+    const pv  = ppivots(data);
+    const cp  = data[data.length-1].close;
+    const prev= data[data.length-2].close;
+    const chg = cp-prev, chgP=((chg/prev)*100).toFixed(2);
+    A={data,str,fib,sdz,pv,cp};
+    document.getElementById('ot').textContent='RYSOWANIE...';
+    cs.setData(data);
+    draw(data,str,fib,sdz,pv);
+    chart.timeScale().fitContent();
+    document.getElementById('pm').textContent=cp.toFixed(2);
+    document.getElementById('pc').innerHTML=`<span class="${chg>=0?'pos':'neg'}">${chg>=0?'+':''}${chg.toFixed(2)} (${chgP}%)</span>`;
+    document.getElementById('st').textContent=`${ticker} · ${data.length} świec`;
+    document.title=`${ticker} ${cp.toFixed(2)} – Smart Money`;
+    ui(str,fib,pv,cp);
+  }catch(err){
+    document.getElementById('st').textContent='⚠ Błąd';
+    const div=document.createElement('div');
+    div.className='eb'; div.textContent='⚠ '+err.message;
+    document.getElementById('cd').appendChild(div);
+    setTimeout(()=>div.remove(),8000);
+    console.error(err);
+  }finally{
+    document.getElementById('lb').disabled=false;
+    document.getElementById('ov').style.display='none';
+  }
+}
+</script>
+</body>
+</html>
