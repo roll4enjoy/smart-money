@@ -9,28 +9,28 @@
 :root{--bg:#0a0a0f;--bg2:#11111a;--bg3:#1a1a28;--border:#2a2a3f;--text:#e0e0f0;--muted:#6060a0;--gold:#FFD700;--green:#00CC88;--red:#FF4466;--orange:#FF9900;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
-header{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+header{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap;}
 .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--gold);letter-spacing:2px;}
 .tw{display:flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:4px 9px;}
 .tw input{background:none;border:none;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;width:80px;text-transform:uppercase;outline:none;}
 select{background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 7px;cursor:pointer;outline:none;}
-button{background:var(--gold);color:#000;border:none;border-radius:5px;padding:5px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+button{background:var(--gold);color:#000;border:none;border-radius:5px;padding:5px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;}
 button:hover{opacity:.85;}button:disabled{opacity:.4;cursor:not-allowed;}
 .pd{margin-left:auto;display:flex;gap:14px;align-items:center;}
 .pm{font-size:17px;font-weight:700;}.pc{font-size:11px;}
 .pos{color:var(--green);}.neg{color:var(--red);}
 .st{font-size:10px;color:var(--muted);padding:3px 7px;background:var(--bg3);border-radius:4px;border:1px solid var(--border);}
 .main{display:flex;flex:1;overflow:hidden;}
-#cd{flex:1;position:relative;background:var(--bg);}
-.sb{width:260px;background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:9px;display:flex;flex-direction:column;gap:7px;}
+#cd{flex:1;position:relative;}
+.sb{width:255px;background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:9px;display:flex;flex-direction:column;gap:7px;}
 .sb::-webkit-scrollbar{width:3px;}.sb::-webkit-scrollbar-thumb{background:var(--border);}
 .card{background:var(--bg3);border:1px solid var(--border);border-radius:7px;overflow:hidden;}
 .ch{padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);border-bottom:1px solid var(--border);text-transform:uppercase;}
 .cb{padding:8px 10px;}
 .row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:10px;border-bottom:1px solid rgba(255,255,255,.03);}
 .row:last-child{border-bottom:none;}
-.rl{color:var(--muted);}.rv{font-weight:600;text-align:right;}
-.badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:1px;}
+.rl{color:var(--muted);}.rv{font-weight:600;}
+.badge{display:inline-block;padding:2px 6px;border-radius:3px;font-size:9px;font-weight:700;}
 .bb{background:rgba(0,204,136,.2);color:var(--green);border:1px solid rgba(0,204,136,.3);}
 .bd{background:rgba(255,68,102,.2);color:var(--red);border:1px solid rgba(255,68,102,.3);}
 .bn{background:rgba(96,96,160,.2);color:var(--muted);border:1px solid rgba(96,96,160,.3);}
@@ -77,7 +77,7 @@ button:hover{opacity:.85;}button:disabled{opacity:.4;cursor:not-allowed;}
       <div class="row"><span class="rl" style="color:var(--orange)">CHoCH</span><span style="font-size:9px;color:var(--muted)">Change of Character</span></div>
     </div></div>
     <div class="card"><div class="ch">🌀 Fibonacci</div><div class="cb" id="fc"><div class="fr"><span class="fl">Brak danych</span></div></div></div>
-    <div class="card"><div class="ch">⭐ Złota strefa 0.618–0.786</div><div class="cb"><div id="gi" style="font-size:11px;color:var(--muted)">–</div></div></div>
+    <div class="card"><div class="ch">⭐ Złota strefa</div><div class="cb"><div id="gi" style="font-size:11px;color:var(--muted)">–</div></div></div>
     <div class="card"><div class="ch">📅 Pivoty</div><div class="cb" id="pvc"><div style="font-size:10px;color:var(--muted)">Brak danych</div></div></div>
     <div class="card"><div class="ch">🎯 Scenariusze</div><div class="cb">
       <div id="ds" style="margin-bottom:7px"></div>
@@ -90,102 +90,71 @@ button:hover{opacity:.85;}button:disabled{opacity:.4;cursor:not-allowed;}
       <div class="row"><span><span class="ld" style="background:#00FFFF"></span>BOS</span><span style="font-size:9px;color:var(--muted)">Przełamanie struktury</span></div>
       <div class="row"><span><span class="ld" style="background:#FF9900"></span>CHoCH</span><span style="font-size:9px;color:var(--muted)">Zmiana charakteru</span></div>
       <div class="row"><span><span class="ld" style="background:#FFD700"></span>Złota strefa</span><span style="font-size:9px;color:var(--muted)">Fib 0.618–0.786</span></div>
-      <div class="row"><span><span class="ld" style="background:rgba(255,50,50,0.5)"></span>SUPPLY</span><span style="font-size:9px;color:var(--muted)">Strefa podaży</span></div>
-      <div class="row"><span><span class="ld" style="background:rgba(0,204,100,0.5)"></span>DEMAND</span><span style="font-size:9px;color:var(--muted)">Strefa popytu</span></div>
+      <div class="row"><span><span class="ld" style="background:#FF3333"></span>SUPPLY</span><span style="font-size:9px;color:var(--muted)">Strefa podaży</span></div>
+      <div class="row"><span><span class="ld" style="background:#00CC66"></span>DEMAND</span><span style="font-size:9px;color:var(--muted)">Strefa popytu</span></div>
     </div></div>
   </div>
 </div>
 
 <script>
-const CDNS = [
+const CDNS=[
   'https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js',
   'https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js',
   'https://cdnjs.cloudflare.com/ajax/libs/lightweight-charts/4.1.3/lightweight-charts.standalone.production.js'
 ];
+let A={},chart,cs,refs=[];
 
-let A={}, chart, cs, refs=[];
-
-function loadScript(src){
-  return new Promise((res,rej)=>{
-    const s=document.createElement('script');
-    s.src=src; s.onload=res; s.onerror=rej;
-    document.head.appendChild(s);
-  });
-}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
 
 async function initApp(){
-  for(const cdn of CDNS){
-    try{
-      await loadScript(cdn);
-      if(typeof LightweightCharts!=='undefined') break;
-    }catch(e){ console.warn('CDN fail:',cdn); }
-  }
-  if(typeof LightweightCharts==='undefined'){
-    document.getElementById('ot').textContent='BŁĄD: Brak połączenia z internetem lub biblioteka niedostępna.';
-    return;
-  }
+  for(const cdn of CDNS){try{await loadScript(cdn);if(typeof LightweightCharts!=='undefined')break;}catch(e){}}
+  if(typeof LightweightCharts==='undefined'){document.getElementById('ot').textContent='BŁĄD: Sprawdź połączenie z internetem.';return;}
   const el=document.getElementById('cd');
   chart=LightweightCharts.createChart(el,{
-    width:el.offsetWidth, height:el.offsetHeight,
+    width:el.offsetWidth,height:el.offsetHeight,
     layout:{background:{color:'#0a0a0f'},textColor:'#6060a0',fontFamily:'JetBrains Mono',fontSize:11},
     grid:{vertLines:{color:'#1a1a28'},horzLines:{color:'#1a1a28'}},
     crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
     rightPriceScale:{borderColor:'#2a2a3f'},
     timeScale:{borderColor:'#2a2a3f',timeVisible:true}
   });
-  cs=chart.addCandlestickSeries({
-    upColor:'#00CC88',downColor:'#FF4466',
-    borderUpColor:'#00CC88',borderDownColor:'#FF4466',
-    wickUpColor:'#00CC88',wickDownColor:'#FF4466'
-  });
+  cs=chart.addCandlestickSeries({upColor:'#00CC88',downColor:'#FF4466',borderUpColor:'#00CC88',borderDownColor:'#FF4466',wickUpColor:'#00CC88',wickDownColor:'#FF4466'});
   window.addEventListener('resize',()=>chart.resize(el.offsetWidth,el.offsetHeight));
   document.getElementById('ov').style.display='none';
   go();
 }
 
-// ── DANE ──
 async function getData(ticker,days){
-  const now=new Date(), from=new Date();
+  const now=new Date(),from=new Date();
   from.setDate(from.getDate()-days-15);
   const fmt=d=>d.toISOString().slice(0,10).replace(/-/g,'');
   const sym=ticker.toLowerCase();
-  const urls=[
-    `https://stooq.com/q/d/l/?s=${sym}.us&d1=${fmt(from)}&d2=${fmt(now)}&i=d`,
-    `https://stooq.com/q/d/l/?s=${sym}&d1=${fmt(from)}&d2=${fmt(now)}&i=d`
-  ];
+  const urls=[`https://stooq.com/q/d/l/?s=${sym}.us&d1=${fmt(from)}&d2=${fmt(now)}&i=d`,`https://stooq.com/q/d/l/?s=${sym}&d1=${fmt(from)}&d2=${fmt(now)}&i=d`];
   const proxies=['https://corsproxy.io/?','https://api.allorigins.win/raw?url='];
-  for(const url of urls){
-    for(const px of proxies){
-      try{
-        const r=await fetch(px+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)});
-        if(!r.ok) continue;
-        const txt=await r.text();
-        if(txt.includes('No data')||txt.trim().length<30) continue;
-        const data=[];
-        for(const l of txt.trim().split('\n').slice(1)){
-          const [date,open,high,low,close]=l.split(',');
-          if(!date||!close||isNaN(+close)) continue;
-          data.push({time:Math.floor(new Date(date).getTime()/1000),open:+parseFloat(open).toFixed(4),high:+parseFloat(high).toFixed(4),low:+parseFloat(low).toFixed(4),close:+parseFloat(close).toFixed(4)});
-        }
-        if(data.length>10) return data.sort((a,b)=>a.time-b.time);
-      }catch(e){}
-    }
+  for(const url of urls)for(const px of proxies){
+    try{
+      const r=await fetch(px+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)});
+      if(!r.ok)continue;
+      const txt=await r.text();
+      if(txt.includes('No data')||txt.trim().length<30)continue;
+      const data=[];
+      for(const l of txt.trim().split('\n').slice(1)){
+        const[date,open,high,low,close]=l.split(',');
+        if(!date||!close||isNaN(+close))continue;
+        data.push({time:Math.floor(new Date(date).getTime()/1000),open:+parseFloat(open).toFixed(4),high:+parseFloat(high).toFixed(4),low:+parseFloat(low).toFixed(4),close:+parseFloat(close).toFixed(4)});
+      }
+      if(data.length>10)return data.sort((a,b)=>a.time-b.time);
+    }catch(e){}
   }
   throw new Error(`Brak danych dla "${ticker}". Sprawdź ticker (np. AAPL, MSFT, TSLA, BTC-USD).`);
 }
 
-// ── ANALIZA ──
 function findPivots(data,len){
-  const ph=new Array(data.length).fill(null), pl=new Array(data.length).fill(null);
+  const ph=new Array(data.length).fill(null),pl=new Array(data.length).fill(null);
   for(let i=len;i<data.length-len;i++){
     let H=true,L=true;
-    for(let j=i-len;j<=i+len;j++){
-      if(j===i) continue;
-      if(data[j].high>=data[i].high) H=false;
-      if(data[j].low<=data[i].low) L=false;
-    }
-    if(H) ph[i]=data[i].high;
-    if(L) pl[i]=data[i].low;
+    for(let j=i-len;j<=i+len;j++){if(j===i)continue;if(data[j].high>=data[i].high)H=false;if(data[j].low<=data[i].low)L=false;}
+    if(H)ph[i]=data[i].high;if(L)pl[i]=data[i].low;
   }
   return{ph,pl};
 }
@@ -193,28 +162,19 @@ function findPivots(data,len){
 function analyzeStructure(data,len){
   const{ph,pl}=findPivots(data,len);
   const hh=[],hl=[],lh=[],ll=[],bos=[],choch=[];
-  let pH=null,pHi=null,pL=null,pLi=null,bull=true;
-  let lHH=null,lHHi=null,lLL=null,lLLi=null;
+  let pH=null,pHi=null,pL=null,pLi=null,bull=true,lHH=null,lHHi=null,lLL=null,lLLi=null;
   for(let i=0;i<data.length;i++){
     if(ph[i]!==null){
       if(pH!==null){
-        if(ph[i]>pH){
-          hh.push({time:data[i].time,price:ph[i],idx:i});
-          lHH=ph[i];lHHi=i;
-          if(!bull) choch.push({time:data[i].time,fromTime:data[pHi].time,level:pH,price:ph[i]});
-          bull=true;
-        }else lh.push({time:data[i].time,price:ph[i],idx:i});
+        if(ph[i]>pH){hh.push({time:data[i].time,price:ph[i],idx:i});lHH=ph[i];lHHi=i;if(!bull)choch.push({time:data[i].time,fromTime:data[pHi].time,level:pH});bull=true;}
+        else lh.push({time:data[i].time,price:ph[i],idx:i});
       }
       pH=ph[i];pHi=i;
     }
     if(pl[i]!==null){
       if(pL!==null){
-        if(pl[i]<pL){
-          ll.push({time:data[i].time,price:pl[i],idx:i});
-          lLL=pl[i];lLLi=i;
-          if(bull) bos.push({time:data[i].time,fromTime:data[pLi].time,level:pL,price:pl[i]});
-          bull=false;
-        }else hl.push({time:data[i].time,price:pl[i],idx:i});
+        if(pl[i]<pL){ll.push({time:data[i].time,price:pl[i],idx:i});lLL=pl[i];lLLi=i;if(bull)bos.push({time:data[i].time,fromTime:data[pLi].time,level:pL});bull=false;}
+        else hl.push({time:data[i].time,price:pl[i],idx:i});
       }
       pL=pl[i];pLi=i;
     }
@@ -223,207 +183,131 @@ function analyzeStructure(data,len){
 }
 
 function calcFib(s,data){
-  if(s.lHH===null||s.lLL===null) return null;
-  const down=s.lHHi<s.lLLi, range=s.lHH-s.lLL;
-  const lvls=[0,0.236,0.382,0.5,0.618,0.786,1,1.272,1.618];
+  if(s.lHH===null||s.lLL===null)return null;
+  const down=s.lHHi<s.lLLi,range=s.lHH-s.lLL;
   const prices={};
-  lvls.forEach(l=>prices[l]=down?s.lHH-range*l:s.lLL+range*l);
+  [0,0.236,0.382,0.5,0.618,0.786,1,1.272,1.618].forEach(l=>prices[l]=down?s.lHH-range*l:s.lLL+range*l);
   return{prices,down,fib_h:s.lHH,fib_l:s.lLL,fib_h_time:data[s.lHHi].time,fib_l_time:data[s.lLLi].time,goldTop:Math.max(prices[0.618],prices[0.786]),goldBot:Math.min(prices[0.618],prices[0.786])};
 }
 
 function calcSD(data,len,fib){
   const{ph,pl}=findPivots(data,len);
   const cp=data[data.length-1].close;
-  const top=fib?fib.fib_h:cp*1.2, bot=fib?fib.fib_l:cp*0.8;
-  // Zbierz z indeksami
+  const top=fib?fib.fib_h:cp*1.2,bot=fib?fib.fib_l:cp*0.8;
   const supply=[],demand=[];
-  for(let i=0;i<ph.length;i++) if(ph[i]&&ph[i]>cp&&ph[i]<=top) supply.push({price:ph[i],idx:i,time:data[i].time});
-  for(let i=0;i<pl.length;i++) if(pl[i]&&pl[i]<cp&&pl[i]>=bot) demand.push({price:pl[i],idx:i,time:data[i].time});
+  for(let i=0;i<ph.length;i++)if(ph[i]&&ph[i]>cp&&ph[i]<=top)supply.push({price:ph[i],time:data[i].time});
+  for(let i=0;i<pl.length;i++)if(pl[i]&&pl[i]<cp&&pl[i]>=bot)demand.push({price:pl[i],time:data[i].time});
   supply.sort((a,b)=>a.price-b.price);
   demand.sort((a,b)=>b.price-a.price);
   return{supply:supply.slice(0,3),demand:demand.slice(0,3)};
 }
 
 function calcPivots(data){
-  if(data.length<30) return null;
+  if(data.length<30)return null;
   const ws=data.slice(-12,-5),ms=data.slice(-60,-20);
-  if(!ws.length||!ms.length) return null;
+  if(!ws.length||!ms.length)return null;
   const wH=Math.max(...ws.map(d=>d.high)),wL=Math.min(...ws.map(d=>d.low)),wC=ws[ws.length-1].close;
   const mH=Math.max(...ms.map(d=>d.high)),mL=Math.min(...ms.map(d=>d.low)),mC=ms[ms.length-1].close;
   const wPP=(wH+wL+wC)/3,mPP=(mH+mL+mC)/3;
   return{wPP,wR1:2*wPP-wL,wS1:2*wPP-wH,mPP,mR1:2*mPP-mL,mS1:2*mPP-mH,mR2:mPP+(mH-mL),mS2:mPP-(mH-mL)};
 }
 
-// ── RYSOWANIE ──
 function clearRefs(){refs.forEach(s=>{try{chart.removeSeries(s);}catch(e){}});refs=[];}
 
-function hline(price,color,style,width){
+// Linia pozioma przez cały wykres
+function hline(p0,p1,price,color,style,width){
   const s=chart.addLineSeries({color,lineWidth:width,lineStyle:style,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-  const d=A.data,t0=d[0].time,t1=d[d.length-1].time+86400*90;
-  s.setData([{time:t0,value:price},{time:t1,value:price}]);
+  s.setData([{time:p0,value:price},{time:p1,value:price}]);
   refs.push(s);
-  return s;
 }
 
-function segment(t0,p0,t1,p1,color,width,style){
+// Odcinek między dwoma punktami
+function seg(t0,v0,t1,v1,color,width,style){
   const s=chart.addLineSeries({color,lineWidth:width,lineStyle:style,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-  s.setData([{time:t0,value:p0},{time:t1,value:p1}]);
+  s.setData([{time:t0,value:v0},{time:t1,value:v1}]);
   refs.push(s);
-  return s;
-}
-
-// Prostokąt przez dwie linie poziome + wypełnienie (seria obszarów)
-function rectangle(t0,t1,top,bot,fillColor,borderColor,borderWidth){
-  // Górna linia
-  const sTop=chart.addLineSeries({color:borderColor,lineWidth:borderWidth,lineStyle:LightweightCharts.LineStyle.Solid,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-  sTop.setData([{time:t0,value:top},{time:t1,value:top}]);
-  refs.push(sTop);
-  // Dolna linia
-  const sBot=chart.addLineSeries({color:borderColor,lineWidth:borderWidth,lineStyle:LightweightCharts.LineStyle.Solid,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-  sBot.setData([{time:t0,value:bot},{time:t1,value:bot}]);
-  refs.push(sBot);
-  // Wypełnienie jako seria obszarów
-  const fill=chart.addAreaSeries({topColor:fillColor,bottomColor:fillColor,lineColor:'transparent',lineWidth:0,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-  fill.setData([{time:t0,value:top},{time:t1,value:top}]);
-  fill.applyOptions({topColor:fillColor,bottomColor:fillColor});
-  refs.push(fill);
 }
 
 function draw(data,str,fib,sdz,pv){
   clearRefs();
   const cp=data[data.length-1].close;
   const LS=LightweightCharts.LineStyle;
-  const t0=data[0].time, tLast=data[data.length-1].time, tFuture=tLast+86400*60;
+  const t0=data[0].time,tF=data[data.length-1].time+86400*60;
 
-  // ── 1. MARKERY STRUKTURY ──
+  // Markery
   const mk=[];
   str.hh.forEach(p=>mk.push({time:p.time,position:'aboveBar',color:'#44FF44',shape:'arrowDown',text:'HH'}));
   str.hl.forEach(p=>mk.push({time:p.time,position:'belowBar',color:'#44FF44',shape:'arrowUp',text:'HL'}));
   str.lh.forEach(p=>mk.push({time:p.time,position:'aboveBar',color:'#FF4444',shape:'arrowDown',text:'LH'}));
   str.ll.forEach(p=>mk.push({time:p.time,position:'belowBar',color:'#FF4444',shape:'arrowUp',text:'LL'}));
-  // Markery BOS/CHoCH
   str.bos.forEach(p=>mk.push({time:p.time,position:'belowBar',color:'#00FFFF',shape:'arrowUp',text:'BOS'}));
   str.choch.forEach(p=>mk.push({time:p.time,position:'aboveBar',color:'#FF9900',shape:'arrowDown',text:'CHoCH'}));
-  mk.sort((a,b)=>a.time-b.time);
-  cs.setMarkers(mk);
 
-  // ── 2. LINIE BOS I CHoCH NA WYKRESIE ──
-  str.bos.forEach(b=>{
-    segment(b.fromTime,b.level,b.time,b.level,'#00FFFF',2,LS.Solid);
-  });
-  str.choch.forEach(c=>{
-    segment(c.fromTime,c.level,c.time,c.level,'#FF9900',2,LS.Solid);
-  });
+  // BOS/CHoCH linie na wykresie
+  str.bos.forEach(b=>seg(b.fromTime,b.level,b.time,b.level,'#00FFFF',2,LS.Solid));
+  str.choch.forEach(c=>seg(c.fromTime,c.level,c.time,c.level,'#FF9900',2,LS.Solid));
 
-  // ── 3. SUPPLY & DEMAND – PROSTOKĄTY ──
-  const zonePct=0.005; // 0.5% szerokość strefy
+  // Supply & Demand – dwie linie (top+bot) jako "prostokąt"
+  const pct=0.005;
   sdz.supply.forEach(z=>{
-    const zTop=z.price, zBot=z.price*(1-zonePct);
-    // Prostokąt od baru pivotu do przyszłości
-    const s1=chart.addLineSeries({color:'rgba(255,50,50,0.8)',lineWidth:2,lineStyle:LS.Solid,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    s1.setData([{time:z.time,value:zTop},{time:tFuture,value:zTop}]);
-    refs.push(s1);
-    const s2=chart.addLineSeries({color:'rgba(255,50,50,0.5)',lineWidth:1,lineStyle:LS.Dashed,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    s2.setData([{time:z.time,value:zBot},{time:tFuture,value:zBot}]);
-    refs.push(s2);
-    // Wypełnienie
-    const fill=chart.addAreaSeries({topColor:'rgba(255,50,50,0.15)',bottomColor:'rgba(255,50,50,0.05)',lineColor:'transparent',lineWidth:0,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    fill.setData([{time:z.time,value:zTop},{time:tFuture,value:zTop}]);
-    refs.push(fill);
+    hline(z.time,tF,z.price,'#FF3333',LS.Solid,2);
+    hline(z.time,tF,z.price*(1-pct),'rgba(255,80,80,0.4)',LS.Dashed,1);
   });
-
   sdz.demand.forEach(z=>{
-    const zTop=z.price*(1+zonePct), zBot=z.price;
-    const s1=chart.addLineSeries({color:'rgba(0,204,100,0.8)',lineWidth:2,lineStyle:LS.Solid,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    s1.setData([{time:z.time,value:zBot},{time:tFuture,value:zBot}]);
-    refs.push(s1);
-    const s2=chart.addLineSeries({color:'rgba(0,204,100,0.5)',lineWidth:1,lineStyle:LS.Dashed,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    s2.setData([{time:z.time,value:zTop},{time:tFuture,value:zTop}]);
-    refs.push(s2);
-    const fill=chart.addAreaSeries({topColor:'rgba(0,204,100,0.05)',bottomColor:'rgba(0,204,100,0.15)',lineColor:'transparent',lineWidth:0,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    fill.setData([{time:z.time,value:zTop},{time:tFuture,value:zTop}]);
-    refs.push(fill);
+    hline(z.time,tF,z.price,'#00CC66',LS.Solid,2);
+    hline(z.time,tF,z.price*(1+pct),'rgba(0,200,100,0.4)',LS.Dashed,1);
   });
 
-  // ── 4. FIBONACCI ──
+  // Fibonacci
   if(fib){
     const cfg={
-      0:['#444',LS.Dotted,1],
-      0.236:['#555',LS.Dotted,1],
-      0.382:['#FF4466',LS.Dashed,2],
-      0.5:['#aaaaaa',LS.Solid,2],
-      0.618:['#FFD700',LS.Solid,2],
-      0.786:['#FFD700',LS.Solid,2],
-      1:['#00CC88',LS.Dashed,2],
-      1.272:['#FFA726',LS.Dotted,1],
-      1.618:['#FFA726',LS.Dotted,1]
+      0:     ['#444444',LS.Dotted,1],
+      0.236: ['#555555',LS.Dotted,1],
+      0.382: ['#FF4466',LS.Dashed,2],
+      0.5:   ['#aaaaaa',LS.Solid, 2],
+      0.618: ['#FFD700',LS.Solid, 2],
+      0.786: ['#FFD700',LS.Solid, 2],
+      1:     ['#00CC88',LS.Dashed,2],
+      1.272: ['#FFA726',LS.Dotted,1],
+      1.618: ['#FFA726',LS.Dotted,1]
     };
     Object.entries(fib.prices).forEach(([l,p])=>{
       const[c,s,w]=cfg[l]||['#555',LS.Dotted,1];
-      hline(p,c,s,w);
+      hline(t0,tF,p,c,s,w);
     });
 
-    // ── ZŁOTA STREFA – PROSTOKĄT ──
-    const gTop=fib.goldTop, gBot=fib.goldBot;
-    // Górna linia złotej strefy
-    const gS1=chart.addLineSeries({color:'rgba(255,215,0,0.9)',lineWidth:2,lineStyle:LS.Solid,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    gS1.setData([{time:t0,value:gTop},{time:tFuture,value:gTop}]);
-    refs.push(gS1);
-    // Dolna linia
-    const gS2=chart.addLineSeries({color:'rgba(255,215,0,0.9)',lineWidth:2,lineStyle:LS.Solid,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    gS2.setData([{time:t0,value:gBot},{time:tFuture,value:gBot}]);
-    refs.push(gS2);
-    // Wypełnienie złotej strefy
-    const gFill=chart.addAreaSeries({topColor:'rgba(255,215,0,0.15)',bottomColor:'rgba(255,215,0,0.05)',lineColor:'transparent',lineWidth:0,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-    gFill.setData([{time:t0,value:gTop},{time:tFuture,value:gTop}]);
-    refs.push(gFill);
+    // Złota strefa – dwie linie złote
+    hline(t0,tF,fib.goldTop,'#FFD700',LS.Solid,2);
+    hline(t0,tF,fib.goldBot,'#FFD700',LS.Solid,2);
+    // Linia środkowa złotej strefy (subtelna)
+    hline(t0,tF,(fib.goldTop+fib.goldBot)/2,'rgba(255,215,0,0.3)',LS.Dashed,1);
 
-    // ── SZCZYT I DOŁEK FIB – MARKERY + LINIA SWINGU ──
-    // Linia swingu: od H do L (diagonalna)
-    const swStart = fib.down ? fib.fib_h_time : fib.fib_l_time;
-    const swEnd   = fib.down ? fib.fib_l_time : fib.fib_h_time;
-    const swPriceStart = fib.down ? fib.fib_h : fib.fib_l;
-    const swPriceEnd   = fib.down ? fib.fib_l : fib.fib_h;
-    segment(swStart,swPriceStart,swEnd,swPriceEnd,'rgba(255,255,255,0.6)',1,LS.Dashed);
+    // Linia swingu H→L
+    seg(fib.fib_h_time,fib.fib_h,fib.fib_l_time,fib.fib_l,'rgba(255,255,255,0.5)',1,LS.Dashed);
 
-    // Markery szczytu i dołku
-    const fibMarkers=[
-      {time:fib.fib_h_time,position:'aboveBar',color:'#FFFFFF',shape:'arrowDown',text:`H ${fib.fib_h.toFixed(2)}`},
-      {time:fib.fib_l_time,position:'belowBar',color:'#AAAAAA',shape:'arrowUp',  text:`L ${fib.fib_l.toFixed(2)}`}
-    ];
-    // Dodaj do istniejących markerów (cs już ma markery struktury)
-    const existingMk = mk.slice();
-    fibMarkers.forEach(m=>existingMk.push(m));
-    existingMk.sort((a,b)=>a.time-b.time);
-    cs.setMarkers(existingMk);
+    // Markery H i L
+    mk.push({time:fib.fib_h_time,position:'aboveBar',color:'#FFFFFF',shape:'arrowDown',text:'H '+fib.fib_h.toFixed(2)});
+    mk.push({time:fib.fib_l_time,position:'belowBar',color:'#CCCCCC',shape:'arrowUp',  text:'L '+fib.fib_l.toFixed(2)});
   }
 
-  // ── 5. PIVOTY ──
+  mk.sort((a,b)=>a.time-b.time);
+  cs.setMarkers(mk);
+
+  // Pivoty
   if(pv){
-    const pvLines=[
-      [pv.wPP,2,LS.Solid,'wPP'],
-      [pv.wR1,1,LS.Dashed,'wR1'],
-      [pv.wS1,1,LS.Dashed,'wS1'],
-      [pv.mPP,3,LS.Solid,'mPP'],
-      [pv.mR1,1,LS.Dashed,'mR1'],
-      [pv.mS1,1,LS.Dashed,'mS1'],
-      [pv.mR2,1,LS.Dotted,'mR2'],
-      [pv.mS2,1,LS.Dotted,'mS2']
-    ];
-    pvLines.forEach(([price,w,s,name])=>{
-      const col=price>cp?'#FF4466':'#00CC88';
-      hline(price,col,s,w);
-    });
+    [
+      [pv.wPP,2,LS.Solid],[pv.wR1,1,LS.Dashed],[pv.wS1,1,LS.Dashed],
+      [pv.mPP,3,LS.Solid],[pv.mR1,1,LS.Dashed],[pv.mS1,1,LS.Dashed],
+      [pv.mR2,1,LS.Dotted],[pv.mS2,1,LS.Dotted]
+    ].forEach(([price,w,s])=>hline(t0,tF,price,price>cp?'#FF4466':'#00CC88',s,w));
   }
 }
 
-// ── SIDEBAR ──
 function updateUI(str,fib,pv,cp){
   const bull=str.bull;
   document.getElementById('tb').innerHTML=`<span class="badge ${bull?'bb':'bd'}">${bull?'▲ WZROSTOWY':'▼ SPADKOWY'}</span>`;
   const abm=pv&&cp>pv.mPP;
   document.getElementById('bb').innerHTML=pv?`<span class="badge ${abm?'bb':'bd'}">${abm?'Powyżej mPP':'Poniżej mPP'}</span>`:'<span class="badge bn">–</span>';
-
   if(fib){
     const nm={0:'0.0',0.236:'0.236',0.382:'0.382',0.5:'0.5 (50%)',0.618:'0.618 ⭐',0.786:'0.786',1:'1.0',1.272:'1.272',1.618:'1.618'};
     document.getElementById('fc').innerHTML=Object.entries(fib.prices).map(([l,p])=>{
@@ -431,35 +315,30 @@ function updateUI(str,fib,pv,cp){
       return`<div class="fr"><span class="fl">${nm[l]||l}</span><span class="fv ${cl}">${p.toFixed(2)}</span></div>`;
     }).join('');
     const inG=fib.goldBot<=cp&&cp<=fib.goldTop,gS=(fib.goldBot+fib.goldTop)/2<cp;
-    document.getElementById('gi').innerHTML=inG
-      ?'<span style="color:#FFD700;font-weight:700">⚠ CENA W ZŁOTEJ STREFIE!</span>'
+    document.getElementById('gi').innerHTML=inG?'<span style="color:#FFD700;font-weight:700">⚠ CENA W ZŁOTEJ STREFIE!</span>'
       :`<div style="color:#FFD700">${fib.goldBot.toFixed(2)} – ${fib.goldTop.toFixed(2)}</div><div style="font-size:9px;color:var(--muted);margin-top:2px">${gS?'[WSPARCIE]':'[OPÓR]'}</div>`;
   }
-
   if(pv) document.getElementById('pvc').innerHTML=[['wPP',pv.wPP],['wR1',pv.wR1],['wS1',pv.wS1],['mPP',pv.mPP],['mR1',pv.mR1],['mS1',pv.mS1],['mR2',pv.mR2],['mS2',pv.mS2]]
     .map(([n,p])=>`<div class="row"><span class="rl">${n}</span><span class="rv" style="color:${p<cp?'var(--green)':'var(--red)'}">${p.toFixed(2)} ${p<cp?'↓':'↑'}</span></div>`).join('');
-
   const fv=fib?Object.values(fib.prices):[];
   const rt=fv.filter(p=>p>cp).sort((a,b)=>a-b)[0]||(pv?pv.wR1:null);
   const st=fv.filter(p=>p<cp).sort((a,b)=>b-a)[0]||(pv?pv.wS1:null);
   if(rt){document.getElementById('bt').textContent=rt.toFixed(2);document.getElementById('bp').textContent=`(+${((rt-cp)/cp*100).toFixed(1)}%)`;}
   if(st){document.getElementById('bk').textContent=st.toFixed(2);document.getElementById('bkp').textContent=`(-${Math.abs(((st-cp)/cp*100)).toFixed(1)}%)`;}
-
   const bg=fib&&cp<fib.goldBot,fA=fv.filter(p=>p>cp).length,fB=fv.filter(p=>p<cp).length;
   let dt='',dc='';
   if(bg&&!bull){dt='🔴 SILNY SPADEK (pod złotą strefą)';dc='neg';}
   else if(fA>fB){dt=`🔴 SPADKOWY (${fA}/9 Fib powyżej)`;dc='neg';}
   else if(fB>fA){dt=`🟢 WZROSTOWY (${fB}/9 Fib poniżej)`;dc='pos';}
-  else{dt='⚪ NEUTRALNY';}
+  else dt='⚪ NEUTRALNY';
   document.getElementById('ds').innerHTML=`<div style="font-size:8px;color:var(--muted);margin-bottom:2px">DOMINUJĄCY</div><div style="font-size:11px;font-weight:700" class="${dc}">${dt}</div>`;
 }
 
-// ── GŁÓWNA ──
 async function go(){
   const ticker=document.getElementById('ti').value.trim().toUpperCase();
   const days=parseInt(document.getElementById('ps').value);
   const slen=parseInt(document.getElementById('ss').value);
-  if(!ticker||!cs) return;
+  if(!ticker||!cs)return;
   document.getElementById('lb').disabled=true;
   document.getElementById('ov').style.display='flex';
   document.getElementById('st').textContent='Ładowanie...';
@@ -473,8 +352,8 @@ async function go(){
     const sdz=calcSD(data,slen,fib);
     const pv=calcPivots(data);
     const cp=data[data.length-1].close;
-    const prev=data[data.length-2].close;
-    const chg=cp-prev,chgP=((chg/prev)*100).toFixed(2);
+    const chg=cp-data[data.length-2].close;
+    const chgP=((chg/data[data.length-2].close)*100).toFixed(2);
     A={data,str,fib,sdz,pv,cp};
     document.getElementById('ot').textContent='RYSOWANIE...';
     cs.setData(data);
