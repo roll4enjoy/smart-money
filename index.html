@@ -195,8 +195,10 @@ function calcSD(data,len,fib){
   const cp=data[data.length-1].close;
   const top=fib?fib.fib_h:cp*1.2,bot=fib?fib.fib_l:cp*0.8;
   const supply=[],demand=[];
-  for(let i=0;i<ph.length;i++)if(ph[i]&&ph[i]>cp&&ph[i]<=top)supply.push({price:ph[i],time:data[i].time});
-  for(let i=0;i<pl.length;i++)if(pl[i]&&pl[i]<cp&&pl[i]>=bot)demand.push({price:pl[i],time:data[i].time});
+  // Ogranicz do ostatnich 200 barów żeby nie rysować starych stref
+  const startIdx=Math.max(0,data.length-200);
+  for(let i=startIdx;i<ph.length;i++)if(ph[i]&&ph[i]>cp&&ph[i]<=top)supply.push({price:ph[i],time:data[i].time});
+  for(let i=startIdx;i<pl.length;i++)if(pl[i]&&pl[i]<cp&&pl[i]>=bot)demand.push({price:pl[i],time:data[i].time});
   supply.sort((a,b)=>a.price-b.price);
   demand.sort((a,b)=>b.price-a.price);
   return{supply:supply.slice(0,3),demand:demand.slice(0,3)};
@@ -214,10 +216,10 @@ function calcPivots(data){
 
 function clearRefs(){refs.forEach(s=>{try{chart.removeSeries(s);}catch(e){}});refs=[];}
 
-// Linia pozioma przez cały wykres
-function hline(p0,p1,price,color,style,width){
+// Linia pozioma od tStart do tEnd
+function hline(tStart,tEnd,price,color,style,width){
   const s=chart.addLineSeries({color,lineWidth:width,lineStyle:style,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
-  s.setData([{time:p0,value:price},{time:p1,value:price}]);
+  s.setData([{time:tStart,value:price},{time:tEnd,value:price}]);
   refs.push(s);
 }
 
@@ -247,15 +249,18 @@ function draw(data,str,fib,sdz,pv){
   str.bos.forEach(b=>seg(b.fromTime,b.level,b.time,b.level,'#00FFFF',2,LS.Solid));
   str.choch.forEach(c=>seg(c.fromTime,c.level,c.time,c.level,'#FF9900',2,LS.Solid));
 
-  // Supply & Demand – dwie linie (top+bot) jako "prostokąt"
+  // Supply & Demand – linie zaczynające się od baru pivotu
   const pct=0.005;
+  const tNow=data[data.length-1].time;
   sdz.supply.forEach(z=>{
-    hline(z.time,tF,z.price,'#FF3333',LS.Solid,2);
-    hline(z.time,tF,z.price*(1-pct),'rgba(255,80,80,0.4)',LS.Dashed,1);
+    const tStart=Math.max(t0, z.time - 86400*5);
+    hline(tStart,tF,z.price,'#FF3333',LS.Solid,2);
+    hline(tStart,tF,z.price*(1-pct),'rgba(255,80,80,0.5)',LS.Dashed,1);
   });
   sdz.demand.forEach(z=>{
-    hline(z.time,tF,z.price,'#00CC66',LS.Solid,2);
-    hline(z.time,tF,z.price*(1+pct),'rgba(0,200,100,0.4)',LS.Dashed,1);
+    const tStart=Math.max(t0, z.time - 86400*5);
+    hline(tStart,tF,z.price,'#00CC66',LS.Solid,2);
+    hline(tStart,tF,z.price*(1+pct),'rgba(0,200,100,0.5)',LS.Dashed,1);
   });
 
   // Fibonacci
